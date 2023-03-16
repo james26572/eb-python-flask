@@ -1,5 +1,6 @@
 import flask
 import os
+
  
 application = flask.Flask(__name__)
 
@@ -12,14 +13,19 @@ app_version = os.environ.get('APP_VERSION')
 # Get cool new feature flag from env
 enable_cool_new_feature = os.environ.get('ENABLE_COOL_NEW_FEATURE') in ['true', 'True']
 
-@application.route('/')
+@application.route('/',methods = ["POST","GET"])
 def hello_world():
     message = "Hello, world!"
-    return flask.render_template('index.html',
-                                  title=message,
-                                  flask_debug=application.debug,
-                                  app_version=app_version,
-                                  enable_cool_new_feature=enable_cool_new_feature)
+    if flask.request.method == "POST":
+        ticker = flask.request.form['ticker']
+        return ticker
+    else:
+        return flask.render_template('index.html',
+                                    title=message,
+                                    flask_debug=application.debug,
+                                    app_version=app_version,
+                                    enable_cool_new_feature=enable_cool_new_feature,
+                                    )
  
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
