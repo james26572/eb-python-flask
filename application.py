@@ -1,6 +1,6 @@
 import flask
 import os
-
+from test import add10
  
 application = flask.Flask(__name__)
 
@@ -14,14 +14,14 @@ app_version = os.environ.get('APP_VERSION')
 enable_cool_new_feature = os.environ.get('ENABLE_COOL_NEW_FEATURE') in ['true', 'True']
 
 @application.route('/',methods = ["POST","GET"])
-def hello_world():
-    message = "Hello, world!"
+def home():
+    
     if flask.request.method == "POST":
-        ticker = flask.request.form['ticker']
-        return ticker
+        number = flask.request.form['ticker']
+        return str(add10(int(number)))
     else:
         return flask.render_template('index.html',
-                                    title=message,
+                                    
                                     flask_debug=application.debug,
                                     app_version=app_version,
                                     enable_cool_new_feature=enable_cool_new_feature,
