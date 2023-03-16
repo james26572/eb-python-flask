@@ -1,6 +1,7 @@
 import flask
 import os
-from test import add10
+from sec10kAPI import renderReportOnPage
+
  
 application = flask.Flask(__name__)
 
@@ -17,8 +18,11 @@ enable_cool_new_feature = os.environ.get('ENABLE_COOL_NEW_FEATURE') in ['true', 
 def home():
     
     if flask.request.method == "POST":
-        number = flask.request.form['ticker']
-        return str(add10(int(number)))
+        ticker = flask.request.form['ticker']
+        text = renderReportOnPage(ticker)
+
+        
+        return text
     else:
         return flask.render_template('index.html',
                                     
